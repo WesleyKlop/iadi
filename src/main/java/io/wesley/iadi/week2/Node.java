@@ -11,7 +11,7 @@ public class Node<T> {
         this.value = value;
     }
 
-    public void attach(Node child) {
+    public void attach(Node<T> child) {
         this.child = child;
     }
 
@@ -19,7 +19,6 @@ public class Node<T> {
         if (i == 0) {
             return this;
         }
-        System.out.println("Next: " + (i - 1));
         return child.getChild(i - 1);
     }
 

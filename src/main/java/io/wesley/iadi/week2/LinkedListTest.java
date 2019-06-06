@@ -6,11 +6,11 @@ package io.wesley.iadi.week2;
 public class LinkedListTest {
     public static void main(String[] args) {
         LinkedList<String> list = new LinkedList<>();
-        list.push("1");
-        list.push("2");
-        list.push("3");
-        list.push("4");
-        list.push("5");
+        list.addLast("1");
+        list.addLast("2");
+        list.addLast("3");
+        list.addLast("4");
+        list.addLast("5");
         list.addFirst("0");
 
         for(int i = 0; i < 6; i++) {
