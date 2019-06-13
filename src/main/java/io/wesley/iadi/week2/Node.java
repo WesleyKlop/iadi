@@ -5,32 +5,47 @@ package io.wesley.iadi.week2;
  */
 public class Node<T> {
     private final T value;
-    private Node<T> child;
+    private Node<T> prev;
+    private Node<T> next;
 
-    public Node(T value) {
+    public Node(Node<T> prev, T value, Node<T> next) {
+        this.prev = prev;
         this.value = value;
+        this.next = next;
     }
 
-    public void attach(Node<T> child) {
-        this.child = child;
+    public Node<T> getPrev() {
+        return prev;
     }
 
-    public Node<T> getChild(int i) {
+    public void setPrev(Node<T> prev) {
+        this.prev = prev;
+    }
+
+    public Node<T> getNext(int i) {
         if (i == 0) {
             return this;
         }
-        return child.getChild(i - 1);
+        return next.getNext(i - 1);
     }
 
-    public Node<T> getChild() {
-        return child;
+    public Node<T> getNext() {
+        return next;
     }
 
-    public T get() {
+    public void setNext(Node<T> next) {
+        this.next = next;
+    }
+
+    public T getValue() {
         return value;
     }
 
-    public boolean hasChild() {
-        return child != null;
+    public boolean hasNext() {
+        return next != null;
+    }
+
+    public boolean hasPrev() {
+        return prev != null;
     }
 }

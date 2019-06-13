@@ -4,68 +4,71 @@ package io.wesley.iadi.week2;
  * @author wesley
  */
 public class LinkedList<T> {
-    private Node<T> header = null;
+    private Node<T> first = null;
+    private Node<T> last = null;
+    private int size = 0;
 
     public void addFirst(T item) {
-        Node<T> newNode = new Node<>(item);
-        if (!this.isEmpty()) {
-            newNode.attach(header);
+        final Node<T> newNode = new Node<>(null, item, first);
+        if (first != null) {
+            first.setPrev(newNode);
         }
-        header = newNode;
+        if (last == null) {
+            last = newNode;
+        }
+        size++;
+        first = newNode;
     }
 
     public boolean isEmpty() {
-        return header == null;
+        return size == 0;
     }
 
     public T get(int index) {
-        return header.getChild(index).get();
+        return first.getNext(index).getValue();
     }
 
     public void addLast(T item) {
-        Node<T> node = header;
-        if (this.isEmpty()) {
-            header = new Node<>(item);
-            return;
+        Node<T> newNode = new Node<>(last, item, null);
+        if (first == null) {
+            first = newNode;
         }
-        while (node.hasChild()) {
-            node = node.getChild();
+        if (last != null) {
+            last.setNext(newNode);
         }
-        node.attach(new Node<>(item));
+        size++;
+        last = newNode;
+    }
+
+    public T getLast() {
+        return last.getValue();
     }
 
     public int size() {
-        if (this.isEmpty()) {
-            return 0;
-        }
-
-        int size = 1;
-        Node<T> node = header;
-        while (node.hasChild()) {
-            size++;
-            node = node.getChild();
-        }
         return size;
     }
 
     public void remove(int index) {
-        assert index >= 0;
-        if (index == 0) {
-            if (this.header.hasChild()) {
-                this.header = this.header.getChild();
-            } else {
-                this.header = null;
-            }
+        final Node<T> nodeToRemove = first.getNext(index);
+
+        // Set next on the prev node to the next node
+        nodeToRemove.getPrev().setNext(nodeToRemove.getNext());
+        // Set prev on the next node to the prev node
+        nodeToRemove.getNext().setPrev(nodeToRemove.getPrev());
+    }
+
+    public void removeLast() {
+        if (last == null) {
             return;
         }
-
-        // Parent of node to remove
-        final Node<T> node = this.header.getChild(index - 1);
-        if (node.getChild().hasChild()) {
-            // Set the child of the parent node to it's grandchild
-            node.attach(node.getChild().getChild());
-        } else {
-            node.attach(null);
+        // Remove ref to last node from the previous one
+        if (last.hasPrev()) {
+            last.getPrev().setNext(null);
         }
+        if (last == first) {
+            first = null;
+        }
+        last = null;
+        size--;
     }
 }
